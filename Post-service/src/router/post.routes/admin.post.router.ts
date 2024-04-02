@@ -6,7 +6,7 @@ export default (dependencies: any) => {
   const {pendingPostCountController,postStatusChangeController,getAllPostsAdminController}= adminPostController(dependencies)
   const {findJobDetailsController}= userPostController(dependencies)
   
-  router.get('/pending-post-list',pendingPostCountController)
+  router.get('/pending-job-posts',pendingPostCountController)
   router.get('/all-post-list',getAllPostsAdminController)
 
   router.get('/job-details/:id',findJobDetailsController)

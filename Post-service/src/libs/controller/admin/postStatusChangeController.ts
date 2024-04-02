@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { postStatusChangeProducer } from "../../../events/post.status.change.producer";
 
 export default (dependencies: any) => {
   const {
@@ -18,10 +19,30 @@ export default (dependencies: any) => {
 
       
       if (response.status) {
+        const {postData}= response
+        let content;
+        let postStatus;
+        if(postData?.isListed){
+          content='Your post got accepted';
+          postStatus='accepted'
+        }else if(postData?.isRejected){
+          content='Your post got rejected'
+          postStatus='rejected'
+        }
+        const applicationData={
+          userId:postData?.recruiterId,
+          jobPostId:postData?._id,
+          postStatus:postStatus
+        }
+        const data :any={
+          applicationData,content
+        }
+        postStatusChangeProducer(data,'notificationTopic','newNotification')
+
         res
           .status(200)
           .json({
-            status: response?.status,
+            status: response?.status, 
             postData: response?.postData,
             message: response?.message,
           });

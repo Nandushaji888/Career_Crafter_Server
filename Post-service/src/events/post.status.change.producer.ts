@@ -1,11 +1,11 @@
-import { kafka } from "../config/KafkaClient";
-import { IApplication } from "../utils/interface/interface";
+import { kafka } from "../config/kafkaClient";
+import { IPost } from "../utils/interfaces/interfaces";
 
-const producer = kafka.producer();
+const producer = kafka.producer();  
 
 
-export const applicationStatusChangeProducer = async (
-    kafkaData: IApplication,
+export const postStatusChangeProducer = async (
+    kafkaData: IPost,
   topic: string,
   type: string
 ) => {

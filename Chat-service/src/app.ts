@@ -7,6 +7,7 @@ import dependencies from "./config/dependencies";
 import { routes } from "./router"
 import { userCreatedConsumer } from "./events/userCreatedConsumer";
 import { recruiterCreatedConsumer } from "./events/recruiterCreatedConsumer";
+import { notificatinCreatedConsumer } from "./events/new.notification.consumer";
 import { app,server } from './socket/socket'
 import connectDB from "./config/db";
 
@@ -33,6 +34,8 @@ app.use(
 
 userCreatedConsumer(dependencies)
 recruiterCreatedConsumer(dependencies)
+notificatinCreatedConsumer(dependencies)
+
 
 app.use("/api", routes(dependencies));
 

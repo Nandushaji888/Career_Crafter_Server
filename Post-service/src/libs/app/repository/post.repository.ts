@@ -150,7 +150,9 @@ export default {
           { $set: { isRejected: true, rejectedReason: rejectedReason } }
         );
         if (response) {
-          return { status: true, message: "Job has been rejected" };
+          const postData = await Post.findById(id);
+
+          return { status: true,postData, message: "Job has been rejected" };
         } else {
           return { status: false, message: "Error in deleting job data" };
         }

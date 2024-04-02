@@ -21,6 +21,8 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
 console.log('in verify token');
 
 
+
+
   jwt.verify(user_accessToken, process.env.ACCESS_SECRET_KEY || "", (err: jwt.VerifyErrors | null, decoded: any) => {
     if (err) {
 

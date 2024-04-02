@@ -20,8 +20,8 @@ export default (dependencies: any) => {
       );
 
       if (response?.status) {
-        console.log('response in get messagesd controller');
-        console.log(response);
+        // console.log('response in get messagesd controller');
+        // console.log(response);
         
         res.status(200).json(response?.messages);
       }

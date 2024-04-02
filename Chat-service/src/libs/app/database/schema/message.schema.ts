@@ -11,7 +11,7 @@ interface IMessage extends Document {
 const messageSchema = new mongoose.Schema<IMessage>({
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ChatParticipants",
+        ref: "ChatParticipants",    
         required: true
     },
     receiverId: {

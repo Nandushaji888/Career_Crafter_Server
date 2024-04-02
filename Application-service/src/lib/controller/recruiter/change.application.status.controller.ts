@@ -21,6 +21,9 @@ export default (dependencies: any) => {
 
     if (response?.status) {
       const {applicationData} = response
+      // console.log('applicationData');
+      // console.log(...applicationData);
+      
       let content;
       if(applicationData?.status==='rejected'){
         content = 'Your Application has been rejected'
@@ -28,10 +31,15 @@ export default (dependencies: any) => {
         content = 'Your Application has been shortlisted'
       }
       const data:any = {
-        ...applicationData,
+        applicationData,
         content
       }
-      // applicationStatusChangeProducer(data,'applicationStatusChangeTopic','applicationStatusChange')
+
+      
+      if(applicationData?.status==='rejected' || applicationData?.status === 'accepted'){
+
+        applicationStatusChangeProducer(data,'notificationTopic','newNotification')
+      }
       res
         .status(200)
         .json({
