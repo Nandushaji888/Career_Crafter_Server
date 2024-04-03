@@ -10,8 +10,8 @@ export default (dependencies:any)=> {
             console.log('in controller');
             
             const userId = req.params.id;
-            console.log(userId);
-            console.log(dependencies);
+            // console.log(userId);
+            // console.log(dependencies);
             
             
             const response = await saved_job_list_usecase(dependencies)?.executeFunction(userId)

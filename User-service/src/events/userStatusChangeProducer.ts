@@ -12,7 +12,7 @@ export const userStatusChangeProducer = async (
   type: string
 ) => {
   try {
-    console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    // console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
     
     if (!statusdata?.id) {
       console.log("id is not available");

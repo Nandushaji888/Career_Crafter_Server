@@ -12,7 +12,7 @@ export default (dependencies:any)=> {
             
             
             const userId = req.params.id;
-            console.log(userId);
+            // console.log(userId);
             const response = await applied_job_list_usecase(dependencies)?.executeFunction(userId)
             if(response.status){
                if( response?.appliedJobList){
