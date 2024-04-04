@@ -16,6 +16,8 @@ export default {
         userId: data?.userId,
         questionAnswer: data?.questionAnswer,
         status: data?.status,
+        postName:data?.postName,
+        company:data?.company
       };
 
       if (appData?.questionAnswer) {
@@ -32,8 +34,7 @@ export default {
         }
       }
 
-      // console.log('appDataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      // console.log(appData);
+
 
       const applicationData = await Application.create(appData);
       if (applicationData) {
@@ -108,8 +109,8 @@ export default {
   getApplication:async(userId:string,jobPostId:string)=> {
     try {
       const response = await Application.find({$and:[{userId:userId},{jobPostId:jobPostId}]})
-      console.log('response in repository');
-      console.log(response);
+      // console.log('response in repository');
+      // console.log(response);
       if(response){
         return {status:true,application:response}
       }else{

@@ -37,6 +37,12 @@ const applicationSchema :Schema<IApplication> = new Schema<IApplication>({
         enum:ApplicationType,
         default:ApplicationType.Pending
     },
+    postName:{
+        type:String
+    },
+    company:{
+        type:String
+    },
     questionAnswer: [
         {
           question: String,

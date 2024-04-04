@@ -32,7 +32,8 @@ export default (dependencies: any) => {
         const applicationData={
           userId:postData?.recruiterId,
           jobPostId:postData?._id,
-          postStatus:postStatus
+          postStatus:postStatus,
+          rejectedReason:postData?.rejectedReason
         }
         const data :any={
           applicationData,content

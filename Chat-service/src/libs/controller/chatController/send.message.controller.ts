@@ -12,12 +12,12 @@ export default (dependencies: any) => {
 
       const senderId = req.user?._id;
 
-      console.log('message');
-      console.log(message);
-      console.log('receiverId');
-      console.log(receiverId);
-      console.log('senderId');
-      console.log(senderId);
+      // console.log('message');
+      // console.log(message);
+      // console.log('receiverId');
+      // console.log(receiverId);
+      // console.log('senderId');
+      // console.log(senderId);
       
       
       

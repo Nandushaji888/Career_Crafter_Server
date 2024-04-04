@@ -10,6 +10,8 @@ export interface IApplication{
     createdOn?:Date,
     userId?:string,
     status?:ApplicationType,
+    company?:string,
+    postName?:string,
     questionAnswer?:IQuestion[]
 
 }

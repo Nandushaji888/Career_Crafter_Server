@@ -36,6 +36,9 @@ const notificationSchema = new mongoose.Schema({
   },
   postStatus:{
     type:String
+  },
+  rejectedReason:{
+    type:String
   }
 },{timestamps:true});
 

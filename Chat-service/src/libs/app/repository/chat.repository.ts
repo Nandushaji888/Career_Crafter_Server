@@ -134,16 +134,25 @@ export default {
       return { status: false, message: "Error in changing message status" };
     }
   },
-  // applicationStatusNotificationRegister:async(data:any)=> {
+createConversation:async(ids:any)=> {
+try {
+  const {receiverId,senderId} = ids;
 
-  //     const appData = {
-  //       _id:data?._id,
-  //       jobPostId: data?.jobPostId,
-  //       userId: data?.userId,
-  //       questionAnswer: data?.questionAnswer,
-  //       status: data?.status,
-  //   }
-  //   // const applicationData = await Notification.create(appData);
+  const data ={participants: [senderId,receiverId]}
 
-  // }
+  const response = await Conversation.create(data)
+  if(response){
+    return {status:true}
+  }else{
+    return {status:false}
+  }
+
+} catch (error) {
+  console.log("error in createConversation repository", error);
+
+  return { status: false };
+}
+
+
+}
 };

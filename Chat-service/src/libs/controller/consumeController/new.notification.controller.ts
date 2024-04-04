@@ -3,14 +3,11 @@ export const createNotificationController = async (
     data: any
   ) => {
     const {applicationData,content} = data
-console.log('jehjhsjdhf');
+// console.log('jehjhsjdhf');
 
     const notificatinData = {
         ...applicationData,content
     }
-  console.log('notificatinData in controller');
-  console.log(notificatinData);
-  
     const {
       useCase: { create_notification_usecase },
     } = dependencies;

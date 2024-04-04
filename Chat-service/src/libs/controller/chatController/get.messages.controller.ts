@@ -11,8 +11,8 @@ export default (dependencies: any) => {
       const {id:userToChatId} = req.params
       const senderId = req.user?._id
       // const senderId='65f7ba9774c69760a813d1fa'
-      console.log(userToChatId);
-      console.log(senderId);
+      // console.log(userToChatId);
+      // console.log(senderId);
 
       const response = await get_messages_usecase(dependencies)?.executeFunction(
         senderId,

@@ -8,9 +8,7 @@ export default (dependencies: any) => {
 
   const applicationSendController = async (req: Request, res: Response) => {
     
-    const data  = req.body
-    console.log('dataaaaaaaaaaaaa');
-    console.log(data);
+    const data  = req.body    
     
     const response = await application_send_usecase(
       dependencies

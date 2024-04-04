@@ -21,9 +21,6 @@ export default (dependencies: any) => {
 
     if (response?.status) {
       const {applicationData} = response
-      // console.log('applicationData');
-      // console.log(...applicationData);
-      
       let content;
       if(applicationData?.status==='rejected'){
         content = 'Your Application has been rejected'

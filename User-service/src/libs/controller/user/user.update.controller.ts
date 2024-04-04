@@ -8,8 +8,6 @@ export default (dependencies: any) => {
 
   const updateUserController = async (req: Request, res: Response) => {
     try {
-      console.log(req.file);
-      
       const {
         name,
         email,
@@ -22,7 +20,6 @@ export default (dependencies: any) => {
         location,
         secondarySkills,
         experience,
-        file,
       } = req?.body;
       
 
@@ -49,7 +46,7 @@ export default (dependencies: any) => {
         },
         experience: experience,
         secondarySkills: secondarySkills,
-        resume: file,
+        resume: req.file?.location,
       };
       // console.log("data");
       // console.log(data);

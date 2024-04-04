@@ -35,4 +35,16 @@ export interface IRecruiter {
     type?:string
 
   }
-  
+
+
+
+  export interface INotification {
+    userId: IUser["_id"];
+    readStatus:boolean;
+    message: string;
+    jobPostId:string;
+    applicationId:string;
+    applicationStatus:string;
+    postStatus:string;
+    rejectedReason:string;
+  }

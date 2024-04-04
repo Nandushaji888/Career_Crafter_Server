@@ -6,7 +6,10 @@ import {
   get_messages_usecase,
   change_message_status_usecase,
   create_notification_usecase,
-  get_all_notifications_by_userId_usecase
+  get_all_notifications_by_userId_usecase,
+  change_read_status_usecase,
+  notification_and_message_count_usecase,
+  create_chat_conversation_usecase
 } from "../libs/usecase";
 
 const useCase: any = {
@@ -16,7 +19,10 @@ const useCase: any = {
   get_messaged_users_usecase,
   change_message_status_usecase,
   create_notification_usecase,
-  get_all_notifications_by_userId_usecase
+  get_all_notifications_by_userId_usecase,
+  change_read_status_usecase,
+  notification_and_message_count_usecase,
+  create_chat_conversation_usecase
 };
 const repository: any = {
   chatRepository: chatRepository,
