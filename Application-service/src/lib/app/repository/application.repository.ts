@@ -80,6 +80,7 @@ export default {
       }
     } catch (error) {
       console.log("error in getApplicationDetails in repository", error);
+      
       return {status:false,message:'Internal server error'}
 
     }

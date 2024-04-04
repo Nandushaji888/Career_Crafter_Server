@@ -138,7 +138,14 @@ createConversation:async(ids:any)=> {
 try {
   const {receiverId,senderId} = ids;
 
+
+
   const data ={participants: [senderId,receiverId]}
+
+   const conversationExists = await Conversation.findOne({participants:{$all:[senderId,receiverId]}}).populate("participants")
+   if(conversationExists){
+    return {status:true,conversationExists}
+   }
 
   const response = await Conversation.create(data)
   if(response){
@@ -154,5 +161,19 @@ try {
 }
 
 
+},
+findMessageByMessageId : async(messageId:string)=> {
+  try {
+    const message = await Message.findById(messageId)
+
+    if(message){
+      return {status:true,message}
+    }else{
+      return {status:false}
+    }
+  } catch (error) {
+    console.log('error in findMessageByMessageId',error);
+    return{status:false}
+  }
 }
 };

@@ -1,7 +1,6 @@
 
 
 export const get_application_usecase = (dependencies:any)=> {
-    console.log(dependencies);
     
     const {repository:{applicationRespository}} = dependencies
 

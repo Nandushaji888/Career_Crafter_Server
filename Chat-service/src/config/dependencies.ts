@@ -9,7 +9,8 @@ import {
   get_all_notifications_by_userId_usecase,
   change_read_status_usecase,
   notification_and_message_count_usecase,
-  create_chat_conversation_usecase
+  create_chat_conversation_usecase,
+  find_message_usecase
 } from "../libs/usecase";
 
 const useCase: any = {
@@ -22,7 +23,8 @@ const useCase: any = {
   get_all_notifications_by_userId_usecase,
   change_read_status_usecase,
   notification_and_message_count_usecase,
-  create_chat_conversation_usecase
+  create_chat_conversation_usecase,
+  find_message_usecase
 };
 const repository: any = {
   chatRepository: chatRepository,

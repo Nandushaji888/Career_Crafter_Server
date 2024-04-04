@@ -8,7 +8,7 @@ export default (dependencies:any)=> {
     const getApplicationController = async(req:Request,res:Response)=> {
         try {
 
-            console.log(req.body);
+            // console.log(req.body);
             
             const jobPostId = req.body?.id
             const userId = req.body?.userData?._id

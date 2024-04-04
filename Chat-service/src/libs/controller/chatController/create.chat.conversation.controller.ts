@@ -14,7 +14,7 @@ export default (dependencies: any) => {
         dependencies
       )?.executeFunction(ids);
       if (response?.status) {
-        return res.status(201).json({ status: true });
+        return res.status(201).json({ status: true,conversationExists:response?.conversationExists });
       } else {
         return res.status(500).json({ status: false });
       }

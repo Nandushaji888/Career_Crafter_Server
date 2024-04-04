@@ -8,6 +8,7 @@ import {get_all_notifications_by_userId_usecase} from './notification.usecase/ge
 import {change_read_status_usecase} from './notification.usecase/change.read.status.usecase'
 import {notification_and_message_count_usecase} from './notification.usecase/notification.and.message.count.usecase'
 import {create_chat_conversation_usecase} from './chatUseCase/create.chat.conversation.usecase'
+import {find_message_usecase} from './chatUseCase/find.messageby.messageId.usecase'
 export {
     send_message_usecase,
     createChatParticipantsUsecase,
@@ -18,5 +19,6 @@ export {
     get_all_notifications_by_userId_usecase,
     change_read_status_usecase,
     notification_and_message_count_usecase,
-    create_chat_conversation_usecase
+    create_chat_conversation_usecase,
+    find_message_usecase
 }

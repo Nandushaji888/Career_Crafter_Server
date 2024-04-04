@@ -8,7 +8,7 @@ export const create_chat_conversation_usecase = (dependencies:any)=> {
         try {
             const response = await chatRepository?.createConversation(ids);
             if(response?.status){
-                return {status:true}
+                return {status:true,conversationExists:response?.conversationExists}
             }else{
                 return {status:false}
             }

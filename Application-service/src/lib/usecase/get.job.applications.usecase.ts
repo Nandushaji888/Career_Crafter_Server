@@ -10,6 +10,7 @@ export const get_job_applications_usecase = (dependencies:any)=> {
 
         if(response?.status){
             return {status:response?.status,applicationList:response?.applicationList}
+            
         }else{
             return {status:response?.status,message:response?.message}
 
