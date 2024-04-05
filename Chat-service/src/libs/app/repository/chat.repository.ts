@@ -68,16 +68,14 @@ export default {
       if (!conversation) {
         return { status: false, message: "no messages" };
       }
-      
+
       const messages = conversation.messages;
-      // const participants = 
-      
+      // const participants =
+
       return { status: true, messages };
-
     } catch (error) {
-      console.log("Error in getMessage controller", error)
-      return { status: false, message:'Internal server eroor' };
-
+      console.log("Error in getMessage controller", error);
+      return { status: false, message: "Internal server eroor" };
     }
   },
   //   messagedUsers:async(userId:ObjectId)=>{
@@ -134,46 +132,83 @@ export default {
       return { status: false, message: "Error in changing message status" };
     }
   },
-createConversation:async(ids:any)=> {
-try {
-  const {receiverId,senderId} = ids;
+  createConversation: async (ids: any) => {
+    try {
+      const { receiverId, senderId } = ids;
 
+      const data = { participants: [senderId, receiverId] };
 
+      const conversationExists = await Conversation.findOne({
+        participants: { $all: [senderId, receiverId] },
+      }).populate("participants");
+      if (conversationExists) {
+        return { status: true, conversationExists };
+      }
 
-  const data ={participants: [senderId,receiverId]}
+      const response = await Conversation.create(data);
+      if (response) {
+        return { status: true };
+      } else {
+        return { status: false };
+      }
+    } catch (error) {
+      console.log("error in createConversation repository", error);
 
-   const conversationExists = await Conversation.findOne({participants:{$all:[senderId,receiverId]}}).populate("participants")
-   if(conversationExists){
-    return {status:true,conversationExists}
-   }
-
-  const response = await Conversation.create(data)
-  if(response){
-    return {status:true}
-  }else{
-    return {status:false}
-  }
-
-} catch (error) {
-  console.log("error in createConversation repository", error);
-
-  return { status: false };
-}
-
-
-},
-findMessageByMessageId : async(messageId:string)=> {
-  try {
-    const message = await Message.findById(messageId)
-
-    if(message){
-      return {status:true,message}
-    }else{
-      return {status:false}
+      return { status: false };
     }
-  } catch (error) {
-    console.log('error in findMessageByMessageId',error);
-    return{status:false}
-  }
-}
+  },
+  findMessageByMessageId: async (messageId: string) => {
+    try {
+      const message = await Message.findById(messageId);
+
+      if (message) {
+        return { status: true, message };
+      } else {
+        return { status: false };
+      }
+    } catch (error) {
+      console.log("error in findMessageByMessageId", error);
+      return { status: false };
+    }
+  },
+  conversationMessageCount: async (receiverId: string, senderId: string) => {
+    try {
+      const messageCount = await Message.countDocuments({
+        $and: [
+          { senderId: senderId },
+          { receiverId: receiverId },
+          { readStatus: false },
+        ],
+      });
+
+      return { status: true, messageCount };
+    } catch (error) {
+      console.log("error in findMessageByMessageId", error);
+      return { status: false };
+    }
+  },
+  clearMessageCount: async (receiverId: string, senderId: string) => {
+    try {
+      const filter = {
+        senderId: senderId,
+        receiverId: receiverId,
+        readStatus: false,
+      };
+
+      const update = { $set: { readStatus: true } };
+
+      const response = await Message.updateMany(filter, update);
+      const messages = await Conversation.findOne({
+        participants: { $all: [senderId, receiverId] },
+      }).populate("messages");
+      if (response) {
+        return { status: true, messages };
+      } else {
+        return { status: false };
+      }
+    } catch (error) {
+      console.log("error in clearMessageCount", error);
+      return { status: false };
+    }
+  },
 };

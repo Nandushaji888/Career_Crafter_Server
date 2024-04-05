@@ -2,6 +2,8 @@ import express from "express";
 
 import { profileController } from "../../libs/controller";
 export default (dependencies: any) => {
+  console.log(dependencies);
+  
   const router = express();
   const {
     createUserController,

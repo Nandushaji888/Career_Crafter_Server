@@ -18,7 +18,7 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   const user_refreshToken = req.cookies.user_refreshToken ? req.cookies.user_refreshToken : req.cookies.recruiter_refreshToken 
 
 
-console.log('in verify token');
+// console.log('in verify token');
 
 
 

@@ -10,7 +10,9 @@ import {
   change_read_status_usecase,
   notification_and_message_count_usecase,
   create_chat_conversation_usecase,
-  find_message_usecase
+  find_message_usecase,
+  conversation_message_count_usecase,
+  clear_message_count_usecase
 } from "../libs/usecase";
 
 const useCase: any = {
@@ -24,7 +26,9 @@ const useCase: any = {
   change_read_status_usecase,
   notification_and_message_count_usecase,
   create_chat_conversation_usecase,
-  find_message_usecase
+  find_message_usecase,
+  conversation_message_count_usecase,
+  clear_message_count_usecase
 };
 const repository: any = {
   chatRepository: chatRepository,
