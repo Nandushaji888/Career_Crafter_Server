@@ -14,8 +14,9 @@ declare global {
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
 
 
-  const user_accessToken = req.cookies.user_accessToken ? req.cookies.user_accessToken :req.cookies.recruiter_accessToken
-  const user_refreshToken = req.cookies.user_refreshToken ? req.cookies.user_refreshToken : req.cookies.recruiter_refreshToken 
+  const user_accessToken =  req.cookies.user_accessToken ||req.cookies.recruiter_accessToken
+  const user_refreshToken =  req.cookies.user_refreshToken || req.cookies.recruiter_refreshToken 
+// console.log(user_accessToken);
 
 
 // console.log('in verify token');
@@ -53,7 +54,9 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       }
     } else {
       const decodedUser = decoded.user as IUser | IRecruiter;
-      req.user = decodedUser;      
+      req.user = decodedUser;   
+      // console.log(req.user);
+         
       next();
     }
   });

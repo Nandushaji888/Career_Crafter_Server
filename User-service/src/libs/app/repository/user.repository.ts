@@ -76,12 +76,12 @@ export default {
     }
   },
   findUser: async (id: string) => {
-    // console.log('id');
-    // console.log(id);
+    console.log('id');
+    console.log(id);
 
     const user = await User.findById(id);
-    // console.log('user');
-    // console.log(user);
+    console.log('user');
+    console.log(user);
 
     if (user) {
       return { status: true, user };

@@ -8,7 +8,7 @@ const get_messaged_users_controller= async(req:Request,res:Response)=> {
         
         const userId = req.params.id
         const response = await get_messaged_users_usecase(dependencies).executeFunction(userId)
-
+        
         if(response?.status) {
   
             

@@ -1,3 +1,4 @@
+import { userProducer } from "../../../../events/userProducer";
 import { IUser } from "../../../../utils/interfaces/interface";
 import {
   createAccessToken,
@@ -39,7 +40,7 @@ export const userGoogleAuthuseCase = async (dependencies: any) => {
     }
  
   };
-  const generateTokens = (user: IUser,googleSignup?:boolean) => {
+  const generateTokens = async(user: IUser,googleSignup?:boolean) => {
     const user_accessToken = createAccessToken(
       user,
       process.env.ACCESS_SECRET_KEY || "",
@@ -50,11 +51,14 @@ export const userGoogleAuthuseCase = async (dependencies: any) => {
       process.env.REFRESH_SECRET_KEY || "",
       process.env.REFRESH_EXPIRY || ""
     );
+    
     if(googleSignup){
 
-      return { status: true, user_accessToken, user,googleSignup:googleSignup };
+      await userProducer(user, 'authTopic', 'createUser');
+
+      return { status: true, user_accessToken, user_refreshToken,user,googleSignup:googleSignup };
     }else{
-      return { status: true, user_accessToken, user };
+      return { status: true, user_accessToken,user_refreshToken, user };
 
     }
   };

@@ -11,8 +11,8 @@ export default (dependencies: any) => {
     try {
       const senderId = req.params.id;
       const receiverId = req?.user?._id;
-      console.log(senderId);
-      console.log(receiverId);
+      // console.log(senderId);
+      // console.log(receiverId);
       const response = await conversation_message_count_usecase(
         dependencies
       )?.executeFunction(receiverId, senderId);

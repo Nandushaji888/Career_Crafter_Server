@@ -8,13 +8,13 @@ export default (dependencies: any) => {
 
   const getUserDataController = async (req: Request, res: Response) => {
     try {
-      
-console.log('reached get user data controller');
+      console.log("reached get user data controller");
 
       const id = req.params.id;
       const response = await get_userData_useCase(dependencies).executeFunction(
         id
       );
+      console.log(response);
 
       if (response.status) {
         return res

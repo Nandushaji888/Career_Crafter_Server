@@ -71,7 +71,6 @@ export default {
   },
   notificationAndMessageCount: async (userId: string) => {
     try {
-        console.log(userId);
         
       const notificationCount = await Notification.countDocuments({
         userId: userId,

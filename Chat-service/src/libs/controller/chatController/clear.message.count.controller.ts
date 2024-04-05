@@ -6,7 +6,6 @@ export default ( dependencies:any)=> {
     const {useCase:{clear_message_count_usecase}} = dependencies
     const clear_message_count_controller = async(req:Request,res:Response)=> {
         try {
-            console.log('reached here');
             
             const senderId = req.params.id
             const receiverId= req.user?._id

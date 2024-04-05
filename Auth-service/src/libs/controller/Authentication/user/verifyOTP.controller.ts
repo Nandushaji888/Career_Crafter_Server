@@ -31,12 +31,12 @@ export default (dependencies: any) => {
         
         req.session.refreshToken = refreshToken;
         res.cookie("user_accessToken", accessToken, {
-          maxAge: 300000,
+          maxAge: 3600000,
           httpOnly: true,
           secure: true,
         });
         res.cookie("user_refreshToken", refreshToken, {
-          maxAge: 3600000,
+          maxAge: 7200000,
           httpOnly: true,
           secure: true,
           sameSite: "strict",
