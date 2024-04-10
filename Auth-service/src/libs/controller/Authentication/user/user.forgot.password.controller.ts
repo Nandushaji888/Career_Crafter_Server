@@ -1,7 +1,8 @@
 
 import {Response,Request} from 'express'
+import { Dependencies } from '../../../../interfaces/dependency.interface';
 
-export default (dependencies :any)=> {
+export default (dependencies :Dependencies)=> {
     const {useCase:{userForgotPassword_useCase}} = dependencies;
 
     const forgotPasswordController = async(req:Request,res:Response)=> {

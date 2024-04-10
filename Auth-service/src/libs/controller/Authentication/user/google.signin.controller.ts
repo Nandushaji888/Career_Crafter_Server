@@ -1,6 +1,7 @@
 import {Request,Response} from 'express'
+import { Dependencies } from '../../../../interfaces/dependency.interface';
 
-export default (dependencies:any)=> {
+export default (dependencies:Dependencies)=> {
 
 
     const {useCase:{userGoogleAuthuseCase}} = dependencies;

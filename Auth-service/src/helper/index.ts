@@ -1,8 +1,4 @@
-import {comparePassword,hashPassword} from './hashPassword'
-import {sendOTP} from './nodemailer'
+import { comparePassword, hashPassword } from "./hashPassword";
+import { sendOTP } from "./nodemailer";
 
-export {
-    comparePassword,
-    hashPassword,
-    sendOTP
-}
+export { comparePassword, hashPassword, sendOTP };

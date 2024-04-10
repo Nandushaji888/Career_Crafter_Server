@@ -36,7 +36,6 @@ export const sendOTP = async (email: string, name: string) => {
     //     <p style="font-size: 12px;">If you have any questions or need further assistance, feel free to reach out to our support team. We're here to help you every step of the way!</p>
     //     <p style="font-size: 12px margin-top 3px;">Thank you again for choosing CareerCrafter. We look forward to helping you achieve your goals.</p>
 
-        
     //   </b>
     //   `,
     // };

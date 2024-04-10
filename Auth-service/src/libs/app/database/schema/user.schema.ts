@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IUser, AuthType } from "../../../../utils/interfaces/interface";
+import { IUser, AuthType } from "../../../../interfaces/interface";
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
   name: String,
@@ -10,12 +10,10 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   },
   phone: {
     type: String,
-    // required: [true, "Please provide a unique Phone number"],
     unique: true,
   },
   password: {
     type: String,
-    // required: [true, "Please provide a password"],
     unique: false,
   },
   type: {

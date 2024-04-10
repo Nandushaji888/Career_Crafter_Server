@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import {userProducer} from '../../../../events/userProducer'
+import { userProducer } from "../../../../events/userProducer";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const {
     useCase: { verifyOTP_useCase },
   } = dependencies;
@@ -17,18 +18,12 @@ export default (dependencies: any) => {
 
       if (response.status) {
 
-        console.log('response');
-        console.log(response);
-        
-        const {  accessToken, refreshToken } = response;
-      
-        const user = response.user.response
 
-        
+        const { accessToken, refreshToken } = response;
 
-        // console.log('user');
-        // console.log(user);
-        
+        const user = response.user.response;
+
+
         req.session.refreshToken = refreshToken;
         res.cookie("user_accessToken", accessToken, {
           maxAge: 3600000,
@@ -42,28 +37,20 @@ export default (dependencies: any) => {
           sameSite: "strict",
         });
         const userData = {
-          _id:user?._id,
-          name:user?.name,
-          email:user?.email,
-          phone:user?.phone || "",
-          isGoogle:user?.isGoogle,
-          type:user?.type,
-          status:user?.status,
-          createdOn:user?.createdOn,
-          location:user?.location
-        }
-        // console.log('userData');
-        // console.log(userData);
-
-        
-        
-        await userProducer(userData, 'authTopic', 'createUser');
-
-
+          _id: user?._id,
+          name: user?.name,
+          email: user?.email,
+          phone: user?.phone || "",
+          isGoogle: user?.isGoogle,
+          type: user?.type,
+          status: user?.status,
+          createdOn: user?.createdOn,
+          location: user?.location,
+        };
+        await userProducer(userData, "authTopic", "createUser");
 
         req.session.Otp = undefined;
         req.session.userData = undefined;
-        
 
         res
           .status(201)
@@ -72,7 +59,9 @@ export default (dependencies: any) => {
         res.status(401).json({ status: false, message: response.message });
       }
     } else {
-      res.status(401).json({ status: false, message: "Incorrect OTP Provided" });
+      res
+        .status(401)
+        .json({ status: false, message: "Incorrect OTP Provided" });
     }
   };
 

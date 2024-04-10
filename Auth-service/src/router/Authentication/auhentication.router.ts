@@ -1,9 +1,8 @@
 import express from "express";
 
 import { profileController } from "../../libs/controller";
-export default (dependencies: any) => {
-  console.log(dependencies);
-  
+import { Dependencies } from "../../interfaces/dependency.interface";
+export default (dependencies: Dependencies) => {
   const router = express();
   const {
     createUserController,
@@ -14,7 +13,7 @@ export default (dependencies: any) => {
     resendOTPController,
     fpOTPVerifyController,
     userCreateNewPassController,
-    userGoogleSigninController
+    userGoogleSigninController,
   } = profileController(dependencies);
   router.post("/signup", createUserController);
   router.post("/login", userLoginController);
@@ -24,7 +23,7 @@ export default (dependencies: any) => {
   router.post("/forgot-password", forgotPasswordController);
   router.post("/otp-verify", fpOTPVerifyController);
   router.post("/new-password", userCreateNewPassController);
-  router.post("/google-auth",userGoogleSigninController);
+  router.post("/google-auth", userGoogleSigninController);
 
   return router;
 };

@@ -1,4 +1,12 @@
-import { authenticationRepository,adminRepository } from "../libs/app/repository";
+import {
+  ConsumeUseCase,
+  Repository,
+  UseCase,
+} from "../interfaces/dependency.interface";
+import {
+  authenticationRepository,
+  adminRepository,
+} from "../libs/app/repository";
 
 import {
   addUser_useCases,
@@ -14,12 +22,11 @@ import {
   userStatusChangeUsecase,
   protect_route_useCase,
   admin_get_all_recruiters,
-  admin_get_recruiter_details, 
-  changeRecruiterStatus_useCase
-
+  admin_get_recruiter_details,
+  changeRecruiterStatus_useCase,
 } from "../libs/usecases";
 
-const useCase: any = {
+const useCase: UseCase = {
   addUser_useCases,
   userLogin_useCase,
   verifyOTP_useCase,
@@ -33,13 +40,13 @@ const useCase: any = {
   protect_route_useCase,
   admin_get_all_recruiters,
   admin_get_recruiter_details,
-  changeRecruiterStatus_useCase
+  changeRecruiterStatus_useCase,
 };
-const repository: any = {
+const repository: Repository = {
   authenticationRepository,
-  adminRepository
+  adminRepository,
 };
-const consumeUseCase: any = {
+const consumeUseCase: ConsumeUseCase = {
   userStatusChangeUsecase,
 };
 

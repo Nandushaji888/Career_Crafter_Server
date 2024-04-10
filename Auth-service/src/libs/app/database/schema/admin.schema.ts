@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import {IAdmin,AuthType} from '../../../../utils/interfaces/interface'
+import {IAdmin,AuthType} from '../../../../interfaces/interface'
 
 
 const adminSchema: Schema<IAdmin> = new Schema<IAdmin>({

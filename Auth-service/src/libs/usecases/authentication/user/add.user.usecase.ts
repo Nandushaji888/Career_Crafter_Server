@@ -1,7 +1,8 @@
 import { sendOTP, hashPassword } from "../../../../helper";
-import { IUser } from "../../../../utils/interfaces/interface";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
+import { IUser } from "../../../../interfaces/interface";
 
-export const addUser_useCases = (dependencies: any) => {
+export const addUser_useCases = (dependencies: Dependencies) => {
   const {
     repository: { authenticationRepository },
   } = dependencies;
@@ -19,19 +20,15 @@ export const addUser_useCases = (dependencies: any) => {
       const phoneExist = await authenticationRepository.userPhoneExist(
         data?.phone
       );
-      console.log(phoneExist);
-
       if (phoneExist) {
         return { status2: true, message: "Phone Number already exists" };
       }
 
-      const response = await sendOTP(data?.email,data?.name);
-      console.log(response);
-
+      const response = await sendOTP(data?.email, data?.name);
       if (response.status) {
         return { status: true, otp: response?.otp, data };
       } else {
-        return { status: false, message:"Error in sending Verification OTP"};
+        return { status: false, message: "Error in sending Verification OTP" };
       }
     } catch (error) {
       console.log(error);

@@ -1,11 +1,11 @@
-import { statusData } from "../../../utils/interfaces/interface";
+import { IRecruiter, IUser, statusData } from "../../../interfaces/interface";
 import { schema } from "../database";
 const { User, Recruiter, Admin } = schema;
 
 export default {
   userEmailExist: async (email: string) => {
     try {
-      let response = await User.findOne({ email: email });
+      const response = await User.findOne({ email: email });
       return response;
     } catch (error) {
       console.log("error in authentication.repository userEmailExist", error);
@@ -13,30 +13,23 @@ export default {
   },
   userPhoneExist: async (phone: string) => {
     try {
-      let response = await User.findOne({ phone: phone });
+      const response = await User.findOne({ phone: phone });
       return response;
     } catch (error) {
       console.log("error in authentication.repository userEmailExist", error);
     }
   },
 
-  createUser: async (data: any) => {
-    // if(data?.isGoogle){
-    //   let userData = {
-    //     name: data.name,
-    //     email: data.email,
-    //     isGoogle:data.isGoogle
-    //   };
-    // }
-    let userData = {
+  createUser: async (data: IUser) => {
+    const userData = {
       name: data.name,
       email: data.email,
       phone: data.phone,
       password: data.password,
       isGoogle: data.isGoogle ? true : false,
-      location:data?.location,
+      location: data?.location,
     };
-    let response = await User.create(userData)
+    const response = await User.create(userData);
     if (response) {
       return { status: true, message: "user created", response };
     } else {
@@ -63,16 +56,15 @@ export default {
       console.log(error, "Error while finding a user");
     }
   },
-  createRecruiter: async (data: any) => {
-    let recruiterData = {
+  createRecruiter: async (data: IRecruiter) => {
+    const recruiterData = {
       name: data.name,
       email: data.email,
       phone: data.phone,
       worksAt: data.worksAt,
       password: data.password,
-
     };
-    let response = await Recruiter.create(recruiterData);
+    const response = await Recruiter.create(recruiterData);
     if (response) {
       return { status: true, message: "recruiter created", response };
     } else {
@@ -93,7 +85,7 @@ export default {
   },
   recruiterEmailExist: async (email: string) => {
     try {
-      let response = await Recruiter.findOne({ email: email });
+      const response = await Recruiter.findOne({ email: email });
       return response;
     } catch (error) {
       console.log(
@@ -104,7 +96,7 @@ export default {
   },
   recruiterPhoneExist: async (phone: string) => {
     try {
-      let response = await Recruiter.findOne({ phone: phone });
+      const response = await Recruiter.findOne({ phone: phone });
       return response;
     } catch (error) {
       console.log(
@@ -159,8 +151,6 @@ export default {
   },
   changeStatus: async (data: statusData) => {
     const { id, status } = data;
-    console.log("data in repository");
-    console.log(data);
 
     let state = true;
     if (status == "Active") state = false;
@@ -182,7 +172,7 @@ export default {
   },
   findUserById: async (userId: string) => {
     try {
-      const user = await User.findOne({ _id: userId }).select("-password")
+      const user = await User.findOne({ _id: userId }).select("-password");
       if (user) {
         if (user.status) {
           return { status: true, user: user };

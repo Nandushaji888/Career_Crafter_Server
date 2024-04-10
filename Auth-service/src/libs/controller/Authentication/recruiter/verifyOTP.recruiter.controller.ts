@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { recruiterCreatedProducer } from "../../../../events/recruiterCreatedProducer";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const {
     useCase: { recruiter_verifyOTP_useCase },
   } = dependencies;

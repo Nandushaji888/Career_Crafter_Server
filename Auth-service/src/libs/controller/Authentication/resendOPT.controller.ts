@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import { sendOTP } from "../../../helper";
+import { Dependencies } from "../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   
 
   const resentOtpController = async (req: Request, res: Response) => {

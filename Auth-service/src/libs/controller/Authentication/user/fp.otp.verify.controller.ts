@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const forgotPassOTPVerify = (req: Request, res: Response) => {
     try {
       const { otp } = req.body;

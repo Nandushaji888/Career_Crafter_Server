@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const {
     useCase: { recruiterLogin_useCase },
   } = dependencies;
 
   const loginRecruiterController = async (req: Request, res: Response) => {
-    const { email, password } = req.body.values
-    console.log(req.body);
-    
-
+  try {
+    const { email, password } = req.body.values;
     const response = await recruiterLogin_useCase(dependencies).executeFunction(
       email,
       password
@@ -19,29 +18,25 @@ export default (dependencies: any) => {
       res.json({ status: false, message: response.message });
     } else {
       const { recruiter, accessToken, refreshToken } = response;
-      // req.session.refreshToken = refreshToken;
-      // const expirationDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-      // res.cookie("recruiter-accessToken", accessToken, {
-      //   expires: expirationDate,
-      //   httpOnly: true,
-      //   secure: true,
-      // });
       res.cookie("recruiter_accessToken", accessToken, {
         maxAge: 300000,
         httpOnly: true,
-        secure:true,
-        sameSite:"strict"
+        secure: true,
+        sameSite: "strict",
       });
       res.cookie("recruiter_refreshToken", refreshToken, {
         maxAge: 3600000,
         httpOnly: true,
-        secure:true,
-        sameSite:"strict"
+        secure: true,
+        sameSite: "strict",
       });
 
-      res.status(201).json({status:true,recruiter:recruiter})
-
+      res.status(201).json({ status: true, recruiter: recruiter });
     }
+  } catch (error) {
+    console.log("error in loginRecruiterController", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
   };
   return loginRecruiterController;
 };

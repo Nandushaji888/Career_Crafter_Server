@@ -1,6 +1,6 @@
-import {Kafka} from 'kafkajs'
+import { Kafka } from "kafkajs";
 
 export const kafka = new Kafka({
-    clientId:  "auth",
-    brokers :['localhost:9092']
-})
+  clientId: "auth",
+  brokers: ["localhost:9092"],
+});

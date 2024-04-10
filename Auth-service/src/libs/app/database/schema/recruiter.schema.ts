@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import {IRecruiter,AuthType} from '../../../../utils/interfaces/interface'
+import {IRecruiter,AuthType} from '../../../../interfaces/interface'
 
 
 const recruiterSchema: Schema<IRecruiter> = new Schema<IRecruiter>({

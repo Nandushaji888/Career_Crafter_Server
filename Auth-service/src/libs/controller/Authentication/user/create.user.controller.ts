@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import { getGeocode } from "../../../../utils/co-ordinated/getCordinates";
+import { Dependencies } from "../../../../interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const {
     useCase: { addUser_useCases },
   } = dependencies;
