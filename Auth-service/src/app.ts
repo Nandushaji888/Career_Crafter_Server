@@ -11,6 +11,8 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { userStatusChangeConsumer } from "./events/userStatusChangeConsumer";
 dotenv.config();
+import ErrorHandler from "./middleware/errorHandler";
+
 
 declare module "express-session" {
   interface SessionData {
@@ -74,5 +76,6 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 userStatusChangeConsumer(dependencies);
 app.use("/api", routes(dependencies));
+app.use(ErrorHandler)
 
 export { app };

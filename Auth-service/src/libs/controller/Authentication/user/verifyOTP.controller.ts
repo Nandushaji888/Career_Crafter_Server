@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { userProducer } from "../../../../events/userProducer";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
@@ -7,7 +7,8 @@ export default (dependencies: Dependencies) => {
     useCase: { verifyOTP_useCase },
   } = dependencies;
 
-  const verifyOTPcontroller = async (req: Request, res: Response) => {
+  const verifyOTPcontroller = async (req: Request, res: Response,next:NextFunction) => {
+   try {
     const { otp } = req.body;
 
     if (otp === req.session.Otp) {
@@ -63,6 +64,11 @@ export default (dependencies: Dependencies) => {
         .status(401)
         .json({ status: false, message: "Incorrect OTP Provided" });
     }
+   } catch (error) {
+    console.log('error in verifyOTPController user',error);
+    
+    next(error)
+   }
   };
 
   return verifyOTPcontroller;

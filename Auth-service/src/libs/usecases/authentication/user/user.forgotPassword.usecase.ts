@@ -30,10 +30,8 @@ export const userForgotPassword_useCase = (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("Error in userForgotPassword_useCase", error);
-      return {
-        status: false,
-        message: "Internal server Error",
-      };
+      throw error
+
     }
   };
   return { executeFunction };

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -6,7 +6,7 @@ export default (dependencies: Dependencies) => {
     useCase: { adminLogin_useCase },
   } = dependencies;
 
-  const loginAdminController = async (req: Request, res: Response) => {
+  const loginAdminController = async (req: Request, res: Response,next:NextFunction) => {
     try {
       const { email, password } = req.body.values;
 
@@ -20,22 +20,28 @@ export default (dependencies: Dependencies) => {
       } else {
         const { admin, accessToken, refreshToken } = response;
         req.session.refreshToken = refreshToken;
-        const expirationDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-        res.cookie("admin_accessToken", accessToken, {
-          expires: expirationDate,
-          httpOnly: true,
-          secure: true,
-        });
 
+        res.cookie("admin_accessToken", accessToken, {
+          maxAge: 3600000,
+          httpOnly: true,
+          secure:true,
+          sameSite:"strict"
+        });
+        res.cookie("admin_refreshToken", refreshToken, {
+          maxAge: 7200000,
+          httpOnly: true,
+          secure:true,
+          sameSite: "strict",
+        });
+        
         res
           .status(201)
-          .json({ status: true, accessToken: accessToken, admin: admin });
+          .json({ status: true,  admin: admin });
       }
     } catch (error) {
       console.log("error in loginAdminController", error);
-      return res
-        .status(500)
-        .json({ status: false, message: "Internal servor error" });
+      next(error);
+
     }
   };
   return loginAdminController;

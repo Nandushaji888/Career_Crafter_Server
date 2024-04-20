@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -7,7 +7,7 @@ export default (dependencies: Dependencies) => {
     useCase: { userNewPassword_useCase },
   } = dependencies;
 
-  const userCreateNewPassController = async (req: Request, res: Response) => {
+  const userCreateNewPassController = async (req: Request, res: Response,next:NextFunction) => {
     try {
 
       console.log(userNewPassword_useCase);
@@ -34,9 +34,8 @@ export default (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({ status: false, message: "Internal Server Error" });
+      next(error)
+
     }
   };
   return userCreateNewPassController;

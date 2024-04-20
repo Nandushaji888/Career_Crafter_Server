@@ -16,10 +16,8 @@ export const protect_route_useCase = (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("Error in protect_route_useCase", error);
-      return {
-        status: false,
-        message: "Internal server Error",
-      };
+      throw error
+
     }
   };
   return { executeFunction };

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response,NextFunction } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -7,8 +7,9 @@ export default (dependencies: Dependencies) => {
     useCase: { userLogin_useCase },
   } = dependencies;
 
-  const loginUserController = async (req: Request, res: Response) => {
-    const { email, password } = req.body.values;
+  const loginUserController = async (req: Request, res: Response,next:NextFunction) => {
+    try {
+      const { email, password } = req.body.values;
     console.log(req.body);
 
     const response = await userLogin_useCase(dependencies)?.executeFunction(
@@ -23,13 +24,13 @@ export default (dependencies: Dependencies) => {
 
       req.session.refreshToken = user_refreshToken;
       res.cookie("user_accessToken", user_accessToken, {
-        maxAge: 3600000,
+        maxAge: 300000,
         httpOnly: true,
         secure:true,
         sameSite:"strict"
       });
       res.cookie("user_refreshToken", user_refreshToken, {
-        maxAge: 7200000,
+        maxAge: 3600000,
         httpOnly: true,
         secure:true,
         sameSite: "strict",
@@ -39,6 +40,13 @@ export default (dependencies: Dependencies) => {
         .status(201)
         .json({ status: true, accessToken: user_accessToken, user: user });
     }
+    } catch (error) {
+      console.log('error in loginUserController',error);
+      next(error)
+      
+    }
   };
   return loginUserController;
 };
+
+

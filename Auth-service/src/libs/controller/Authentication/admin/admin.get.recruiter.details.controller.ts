@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
   const {
     useCase: { admin_get_recruiter_details },
   } = dependencies;
-  const getRecruiterDetailsController = async (req: Request, res: Response) => {
+  const getRecruiterDetailsController = async (req: Request, res: Response,next:NextFunction) => {
     try {
       const recruiterId = req.params.id;
       const response = await admin_get_recruiter_details(
@@ -23,9 +23,8 @@ export default (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("error in admin get recruiter details controller", error);
-      return res
-        .status(500)
-        .json({ status: false, message: "Internal servor error" });
+      next(error);
+
     }
   };
   return getRecruiterDetailsController;

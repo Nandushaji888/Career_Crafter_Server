@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -8,7 +8,8 @@ export default (dependencies: Dependencies) => {
 
   const changeRecruiterStatusController = async (
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ) => {
     try {
       const { id, status } = req.body.formData;
@@ -18,13 +19,11 @@ export default (dependencies: Dependencies) => {
       if (response?.status) {
         res.clearCookie("recruiter_accessToken");
         res.clearCookie("recruiter_refreshToken");
-        return res
-          .status(200)
-          .json({
-            status: response?.status,
-            recruiters: response?.recruiters,
-            message: response?.message,
-          });
+        return res.status(200).json({
+          status: response?.status,
+          recruiters: response?.recruiters,
+          message: response?.message,
+        });
       } else {
         return res
           .status(500)
@@ -32,9 +31,7 @@ export default (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("error in change user status controller", error);
-      return res
-        .status(500)
-        .json({ status: false, message: "Internal Server Error" });
+      next(error);
     }
   };
   return changeRecruiterStatusController;

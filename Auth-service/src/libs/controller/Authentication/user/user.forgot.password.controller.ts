@@ -1,11 +1,11 @@
 
-import {Response,Request} from 'express'
+import {Response,Request, NextFunction} from 'express'
 import { Dependencies } from '../../../../interfaces/dependency.interface';
 
 export default (dependencies :Dependencies)=> {
     const {useCase:{userForgotPassword_useCase}} = dependencies;
 
-    const forgotPasswordController = async(req:Request,res:Response)=> {
+    const forgotPasswordController = async(req:Request,res:Response ,next:NextFunction)=> {
         
         try {
             const {email} = req.body
@@ -27,7 +27,8 @@ export default (dependencies :Dependencies)=> {
         } catch (error) {
             // console.log('hereeeeeeee');
             console.log(error);
-            
+            next(error)
+
             
         }
     }

@@ -17,7 +17,7 @@ export const admin_get_all_recruiters = (dependencies: Dependencies) => {
     } catch (error) {
       console.log("error in admin get all recruiters", error);
 
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   };
   return { executeFunction };

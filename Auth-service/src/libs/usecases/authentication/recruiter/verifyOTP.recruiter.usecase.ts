@@ -1,10 +1,7 @@
 import { hashPassword } from "../../../../helper";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 import { IRecruiter } from "../../../../interfaces/interface";
-import {
-  createAccessToken,
-  createRefreshToken,
-} from "../../../../utils/jwt/jwt";
+import { createRecruiterAccessToken, createRecruiterRefreshToken } from "../../../../utils/jwt/jwt";
 export const recruiter_verifyOTP_useCase = (dependencies: Dependencies) => {
   const {
     repository: { authenticationRepository },
@@ -20,12 +17,12 @@ export const recruiter_verifyOTP_useCase = (dependencies: Dependencies) => {
           await authenticationRepository?.createRecruiter(updatedData);
 
         if (addRecruiterData.status) {
-          const accessToken = createAccessToken(
+          const accessToken = createRecruiterAccessToken(
             addRecruiterData,
             process.env.ACCESS_SECRET_KEY!,
             process.env.ACCESS_EXPIRY!
           );
-          const refreshToken = createRefreshToken(
+          const refreshToken = createRecruiterRefreshToken(
             addRecruiterData,
             process.env.REFRESH_SECRET_KEY!,
             process.env.REFRESH_EXPIRY!
@@ -46,7 +43,7 @@ export const recruiter_verifyOTP_useCase = (dependencies: Dependencies) => {
     } catch (error) {
       console.log("error in recruiter_verifyOTP_useCase", error);
 
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   };
   return { executeFunction };

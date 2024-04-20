@@ -35,7 +35,9 @@ export interface IRecruiter {
 export interface IAdmin {
     name: string;
     email: string;
-    password: string;
+    password?: string;
+    phone?:string;
+    status?:boolean;
     type: AuthType;
 }
 

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { clearAccessTokenFromCookie } from "../../../../utils/jwt/jwt";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
-  const recruiterLogoutController = (req: Request, res: Response) => {
+  const recruiterLogoutController = (req: Request, res: Response,next:NextFunction) => {
     try {
       res.clearCookie("recruiter_accessToken");
       res.clearCookie("recruiter_refreshToken");
@@ -13,7 +13,7 @@ export default (dependencies: Dependencies) => {
     } catch (err) {
       console.log(err, "errr");
 
-      res.json(err);
+      next(err);
     }
   };
   return recruiterLogoutController;

@@ -1,8 +1,8 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
-  const forgotPassOTPVerify = (req: Request, res: Response) => {
+  const forgotPassOTPVerify = (req: Request, res: Response,next:NextFunction) => {
     try {
       const { otp } = req.body;
 
@@ -13,7 +13,8 @@ export default (dependencies: Dependencies) => {
     }
     } catch (error) {
         console.log(error);
-        
+        next(error)
+
     }
   };
   return forgotPassOTPVerify;

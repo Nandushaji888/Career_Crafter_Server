@@ -6,34 +6,48 @@ export default {
   userEmailExist: async (email: string) => {
     try {
       const response = await User.findOne({ email: email });
+      if (!response) {
+        throw new Error("Email or Password is incorrect");
+      }
       return response;
     } catch (error) {
       console.log("error in authentication.repository userEmailExist", error);
+      throw error;
     }
   },
   userPhoneExist: async (phone: string) => {
     try {
       const response = await User.findOne({ phone: phone });
+      if (!response) {
+        throw new Error("Phone number doesn't exists");
+      }
       return response;
     } catch (error) {
       console.log("error in authentication.repository userEmailExist", error);
+      throw error;
     }
   },
 
   createUser: async (data: IUser) => {
-    const userData = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      password: data.password,
-      isGoogle: data.isGoogle ? true : false,
-      location: data?.location,
-    };
-    const response = await User.create(userData);
-    if (response) {
-      return { status: true, message: "user created", response };
-    } else {
-      return { status: false, message: "error in creating user" };
+    try {
+      const userData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        isGoogle: data.isGoogle ? true : false,
+        location: data?.location,
+      };
+      const response = await User.create(userData);
+      if (response) {
+        return { status: true, message: "user created", response };
+      } else {
+        return { status: false, message: "error in creating user" };
+      }
+    } catch (error) {
+      console.log("error in createUser", error);
+
+      throw error;
     }
   },
   findUser: async (email: string) => {
@@ -54,21 +68,29 @@ export default {
       }
     } catch (error) {
       console.log(error, "Error while finding a user");
+      throw error;
+      // return {status:false}
     }
   },
   createRecruiter: async (data: IRecruiter) => {
-    const recruiterData = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      worksAt: data.worksAt,
-      password: data.password,
-    };
-    const response = await Recruiter.create(recruiterData);
-    if (response) {
-      return { status: true, message: "recruiter created", response };
-    } else {
-      return { status: false, message: "error in creating recruiter" };
+    try {
+      const recruiterData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        worksAt: data.worksAt,
+        password: data.password,
+      };
+      const response = await Recruiter.create(recruiterData);
+      if (response) {
+        return { status: true, message: "recruiter created", response };
+      } else {
+        return { status: false, message: "error in creating recruiter" };
+      }
+    } catch (error) {
+      console.log('error in createRecruiter',error);
+      throw error
+      
     }
   },
   findRecruiter: async (email: string) => {
@@ -81,6 +103,7 @@ export default {
       }
     } catch (error) {
       console.log(error, "Error while finding a recruiter");
+      throw error
     }
   },
   recruiterEmailExist: async (email: string) => {
@@ -92,6 +115,7 @@ export default {
         "error in authentication.repository recruiterEmailExist",
         error
       );
+      throw error
     }
   },
   recruiterPhoneExist: async (phone: string) => {
@@ -103,12 +127,12 @@ export default {
         "error in authentication.repository recruiterEmailExist",
         error
       );
+      throw error
     }
   },
   findAdmin: async (email: string) => {
     try {
       const admin = await Admin.findOne({ email: email });
-      console.log(admin);
 
       if (admin) {
         return { status: true, admin: admin };
@@ -117,6 +141,7 @@ export default {
       }
     } catch (error) {
       console.log(error, "Error while finding a admin");
+      throw error
     }
   },
   setNewPassword: async (email: string, password: string) => {
@@ -132,6 +157,7 @@ export default {
       }
     } catch (error) {
       console.log(error, "error in setting new password");
+      throw error
     }
   },
   isGoogleTrue: async (email: string) => {
@@ -147,6 +173,7 @@ export default {
       }
     } catch (error) {
       console.log(error, "error in isGoogleTrue");
+      throw error
     }
   },
   changeStatus: async (data: statusData) => {
@@ -168,6 +195,8 @@ export default {
       }
     } catch (err) {
       console.log("Error in changing user status", err);
+      throw err
+
     }
   },
   findUserById: async (userId: string) => {
@@ -188,6 +217,8 @@ export default {
       }
     } catch (error) {
       console.log(error, "Error while finding a user");
+      throw error
+
     }
   },
 };

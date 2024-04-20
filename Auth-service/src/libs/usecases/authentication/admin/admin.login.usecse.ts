@@ -1,8 +1,8 @@
 import { comparePassword } from "../../../../helper/hashPassword";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 import {
-  createAccessToken,
-  createRefreshToken,
+  createAdminAccessToken,
+  createAdminRefreshToken,
 } from "../../../../utils/jwt/jwt";
 
 export const adminLogin_useCase = (dependencies: Dependencies) => {
@@ -16,23 +16,32 @@ export const adminLogin_useCase = (dependencies: Dependencies) => {
       if (!response.status) {
         return { status: false, message: "Email or Password is incorrect" };
       } else {
-        const { admin } = response;
+        const { admin } = response;        
+        const adminData = {
+          _id:admin?._id,
+          name:admin?.name,
+          email:admin?.email,
+          phone:admin.phone,
+          type:admin?.type,
+          status:admin.status,
+        }
         const validPass = await comparePassword(password, admin.password);
 
         if (validPass) {
-          const accessToken = createAccessToken(
-            admin,
+          const accessToken = createAdminAccessToken(
+            adminData,
             process.env.ACCESS_SECRET_KEY!,
             process.env.ACCESS_EXPIRY!
           );
-          const refreshToken = createRefreshToken(
-            admin,
+          const refreshToken = createAdminRefreshToken(
+            adminData,
             process.env.REFRESH_SECRET_KEY!,
             process.env.REFRESH_EXPIRY!
           );
+
           return {
             status: true,
-            admin: admin,
+            admin: adminData,
             accessToken: accessToken,
             refreshToken: refreshToken,
           };
@@ -42,7 +51,7 @@ export const adminLogin_useCase = (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("error in adminLogin_useCase", error);
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   };
   return { executeFunction };

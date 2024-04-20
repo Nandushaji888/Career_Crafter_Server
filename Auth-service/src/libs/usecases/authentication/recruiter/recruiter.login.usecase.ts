@@ -1,6 +1,6 @@
 import { comparePassword } from "../../../../helper/hashPassword";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
-import { createAccessToken, createRefreshToken } from "../../../../utils/jwt/jwt";
+import {  createRecruiterAccessToken, createRecruiterRefreshToken } from "../../../../utils/jwt/jwt";
 
 export const recruiterLogin_useCase = (dependencies: Dependencies) => {
   const {
@@ -18,12 +18,12 @@ export const recruiterLogin_useCase = (dependencies: Dependencies) => {
       const validPass = await comparePassword(password, recruiter.password);
 
       if (validPass) {
-        const accessToken = createAccessToken(
+        const accessToken = createRecruiterAccessToken(
           recruiter,
           process.env.ACCESS_SECRET_KEY!,
           process.env.ACCESS_EXPIRY!
         );
-        const refreshToken = createRefreshToken(
+        const refreshToken = createRecruiterRefreshToken(
           recruiter,
           process.env.REFRESH_SECRET_KEY!,
           process.env.REFRESH_EXPIRY!
@@ -38,7 +38,7 @@ export const recruiterLogin_useCase = (dependencies: Dependencies) => {
     } catch (error) {
       console.log('error in recruiterLogin_useCase',error);
         
-      return {status:false,message:'Internal server error'}
+      throw error
     }
   };
   return { executeFunction };

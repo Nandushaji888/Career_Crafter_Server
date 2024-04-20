@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { clearAccessTokenFromCookie } from "../../../../utils/jwt/jwt";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
-  const userLogoutController = (req: Request, res: Response) => {
+  const userLogoutController = (req: Request, res: Response,next:NextFunction) => {
     try {
 
       console.log('reached ');
@@ -15,7 +15,7 @@ export default (dependencies: Dependencies) => {
     } catch (err) {
       console.log(err, "errr");
 
-      res.json(err);
+      next(err)
     }
   };
   return userLogoutController;

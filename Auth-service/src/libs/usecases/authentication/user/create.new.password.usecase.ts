@@ -20,10 +20,8 @@ export const userNewPassword_useCase = (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("Error in user new password usecase", error);
-      return {
-        status: false,
-        message: "Internal server Error",
-      };
+      throw error
+
     }
   };
   return { executeFunction };

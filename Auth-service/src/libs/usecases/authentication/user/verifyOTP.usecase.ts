@@ -1,10 +1,7 @@
 import { hashPassword } from "../../../../helper";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 import { IUser } from "../../../../interfaces/interface";
-import {
-  createAccessToken,
-  createRefreshToken,
-} from "../../../../utils/jwt/jwt";
+import { createUserAccessToken, createUserRefreshToken } from "../../../../utils/jwt/jwt";
 export const verifyOTP_useCase = (dependencies: Dependencies) => {
   const {
     repository: { authenticationRepository },
@@ -20,12 +17,12 @@ export const verifyOTP_useCase = (dependencies: Dependencies) => {
           updatedData
         );
         if (addUserData.status) {
-          const accessToken = createAccessToken(
+          const accessToken = createUserAccessToken(
             addUserData,
             process.env.ACCESS_SECRET_KEY!,
             process.env.ACCESS_EXPIRY!
           );
-          const refreshToken = createRefreshToken(
+          const refreshToken = createUserRefreshToken(
             addUserData,
             process.env.REFRESH_SECRET_KEY!,
             process.env.REFRESH_EXPIRY!
@@ -46,10 +43,8 @@ export const verifyOTP_useCase = (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("Error in generateTokens in userGoogleAuthuseCase", error);
-      return {
-        status: false,
-        message: "Internal server Error",
-      };
+      throw error
+
     }
   };
   return { executeFunction };

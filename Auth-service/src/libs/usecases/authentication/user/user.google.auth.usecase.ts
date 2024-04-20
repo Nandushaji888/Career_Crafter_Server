@@ -1,10 +1,7 @@
 import { userProducer } from "../../../../events/userProducer";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 import { IUser } from "../../../../interfaces/interface";
-import {
-  createAccessToken,
-  createRefreshToken,
-} from "../../../../utils/jwt/jwt";
+import { createUserAccessToken, createUserRefreshToken } from "../../../../utils/jwt/jwt";
 
 export const userGoogleAuthuseCase = async (dependencies: Dependencies) => {
   const {
@@ -46,12 +43,12 @@ export const userGoogleAuthuseCase = async (dependencies: Dependencies) => {
   };
   const generateTokens = async (user: IUser, googleSignup?: boolean) => {
     try {
-      const user_accessToken = createAccessToken(
+      const user_accessToken = createUserAccessToken(
         user,
         process.env.ACCESS_SECRET_KEY || "",
         process.env.ACCESS_EXPIRY || ""
       );
-      const user_refreshToken = createRefreshToken(
+      const user_refreshToken = createUserRefreshToken(
         user,
         process.env.REFRESH_SECRET_KEY || "",
         process.env.REFRESH_EXPIRY || ""
@@ -72,10 +69,8 @@ export const userGoogleAuthuseCase = async (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("Error in generateTokens in userGoogleAuthuseCase", error);
-      return {
-        status: false,
-        message: "Internal server Error",
-      };
+      throw error
+
     }
   };
 

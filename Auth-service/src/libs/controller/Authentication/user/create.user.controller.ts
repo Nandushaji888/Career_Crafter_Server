@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import { getGeocode } from "../../../../utils/co-ordinated/getCordinates";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
@@ -8,12 +8,9 @@ export default (dependencies: Dependencies) => {
   } = dependencies;
   
 
-  const createUserController = async (req: Request, res: Response) => {
+  const createUserController = async (req: Request, res: Response ,next:NextFunction) => {
+   try {
     const { name, email, phone, password,location } = req.body.values;
-
-    console.log(req.body);
-
-
     const geocodedLocation = await getGeocode(location);
     if (!geocodedLocation) {
       return res
@@ -49,6 +46,11 @@ export default (dependencies: Dependencies) => {
 
       res.json({ status: false, message: response?.message });
     }
+   } catch (error) {
+    console.log('error in createUserController',error);
+    next(error)
+    
+   }
   };
   return createUserController;
 };

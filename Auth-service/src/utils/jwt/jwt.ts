@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-import { IRecruiter, IUser } from "../../interfaces/interface";
+import { IAdmin, IRecruiter, IUser } from "../../interfaces/interface";
 
-export const createAccessToken = (
-  user: IUser | IRecruiter,
+export const createUserAccessToken = (
+  user: IUser,
   accessTokenSecretKey: string,
   expiration: string
 ) => {
@@ -13,8 +13,50 @@ export const createAccessToken = (
   return token;
 };
 
-export const createRefreshToken = (
-  user: IUser | IRecruiter,
+export const createRecruiterAccessToken = (
+  user: IRecruiter,
+  accessTokenSecretKey: string,
+  expiration: string
+) => {
+  const token = jwt.sign({ user }, accessTokenSecretKey, {
+    expiresIn: expiration,
+  });
+  return token;
+};
+
+export const createAdminAccessToken = (
+  user: IAdmin,
+  accessTokenSecretKey: string,
+  expiration: string
+) => {
+  const token = jwt.sign({ user }, accessTokenSecretKey, {
+    expiresIn: expiration,
+  });
+  return token;
+};
+
+export const createUserRefreshToken = (
+  user: IUser ,
+  refreshTokenSecretKey: string,
+  expiration: string
+) => {
+  return jwt.sign({ user }, refreshTokenSecretKey, {
+    expiresIn: expiration,
+  });
+};
+
+export const createRecruiterRefreshToken = (
+  user: IRecruiter,
+  refreshTokenSecretKey: string,
+  expiration: string
+) => {
+  return jwt.sign({ user}, refreshTokenSecretKey, {
+    expiresIn: expiration,
+  });
+};
+
+export const createAdminRefreshToken = (
+  user: IAdmin,
   refreshTokenSecretKey: string,
   expiration: string
 ) => {

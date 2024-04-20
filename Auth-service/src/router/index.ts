@@ -11,5 +11,6 @@ export const routes = (dependencies: Dependencies) => {
   routes.use("/auth/user", authenticationRouter(dependencies));
   routes.use("/auth/recruiter", recruiterAuthenticationRouter(dependencies));
   routes.use("/auth/admin", adminAuthenticationRouter(dependencies));
+
   return routes;
 };

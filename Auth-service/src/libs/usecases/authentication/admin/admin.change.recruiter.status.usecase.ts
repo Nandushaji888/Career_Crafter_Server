@@ -22,7 +22,7 @@ export const changeRecruiterStatus_useCase = (dependencies: Dependencies) => {
     } catch (error) {
       console.log("error in change user status usecase", error);
 
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   };
   return { executeFunction };

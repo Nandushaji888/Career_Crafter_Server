@@ -33,10 +33,8 @@ export const addUser_useCases = (dependencies: Dependencies) => {
     } catch (error) {
       console.log(error);
 
-      return {
-        status: false,
-        message: "An error occurred during user creation",
-      };
+      throw error
+
     }
   };
   return { executeFunction };

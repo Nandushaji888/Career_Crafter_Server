@@ -13,7 +13,7 @@ export default {
       }
     } catch (error) {
       console.log("error in get recruiters list in repository", error);
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   },
   getRecruiterDetails: async (recruiterId: string) => {
@@ -27,7 +27,7 @@ export default {
       }
     } catch (error) {
       console.log("error in get recruiter details in admin repository");
-      return { status: false, message: "Internal server error" };
+      throw error
     }
   },
   changeRecruiterStatus: async (id: string, status: string) => {
@@ -53,6 +53,8 @@ export default {
       }
     } catch (err) {
       console.log("Error in changing recruiter status", err);
+      throw err
+
     }
   },
 };

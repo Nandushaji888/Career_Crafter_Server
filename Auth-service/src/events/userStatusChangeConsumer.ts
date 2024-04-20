@@ -17,7 +17,7 @@ export const userStatusChangeConsumer = async (dependencies: Dependencies) => {
       const jsondata = JSON.parse(jsonstring);
       const messagetype = jsondata?.type;
 
-      if (messagetype == "changeUserStatus") {
+      if (messagetype === "changeUserStatus") {
         await userStatusChangeController(dependencies, jsondata.data);
       }
     },

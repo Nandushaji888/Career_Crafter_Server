@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -6,7 +6,11 @@ export default (dependencies: Dependencies) => {
     useCase: { addRecruiter_useCases },
   } = dependencies;
 
-  const createRecruiterController = async (req: Request, res: Response) => {
+  const createRecruiterController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const { name, email, phone, password, worksAt } = req.body.values;
       const data = {
@@ -33,7 +37,7 @@ export default (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("error in createRecruiterController", error);
-      return res.status(500).json({ message: "Internal server error" });
+      next(error);
     }
   };
   return createRecruiterController;

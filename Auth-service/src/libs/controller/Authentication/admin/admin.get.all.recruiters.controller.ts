@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Dependencies } from "../../../../interfaces/dependency.interface";
 
 export default (dependencies: Dependencies) => {
@@ -6,7 +6,7 @@ export default (dependencies: Dependencies) => {
     useCase: { admin_get_all_recruiters },
   } = dependencies;
 
-  const getRecruiterListController = async (req: Request, res: Response) => {
+  const getRecruiterListController = async (req: Request, res: Response,next:NextFunction) => {
     try {
       const response = await admin_get_all_recruiters(
         dependencies
@@ -23,9 +23,8 @@ export default (dependencies: Dependencies) => {
       }
     } catch (error) {
       console.log("error in get recruiters in admin controller", error);
-      return res
-        .status(500)
-        .json({ status: false, message: "Internal sever error" });
+      next(error);
+
     }
   };
   return getRecruiterListController;
