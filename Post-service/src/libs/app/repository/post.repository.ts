@@ -1,12 +1,11 @@
 import { getGeocode } from "../../../utils/co-ordinates/getCordinates";
 import {
-  IPost,
-  IUser,
   WorkArrangementType,
   employmentType,
-} from "../../../utils/interfaces/interfaces";
+} from "../../../utils/interfaces/enum";
+import { IPost, IQuery, IUser } from "../../../utils/interfaces/interfaces";
 import { schema } from "../database";
-const { Category, Post, User, AuthType } = schema;
+const { Post, User } = schema;
 
 export default {
   storeUser: async (data: IUser) => {
@@ -33,8 +32,6 @@ export default {
       skills: data?.skills || "",
       profilePic: data?.profilePic || "User-Profile-PNG-Download-Image.png",
     };
-    // console.log('userData');
-    // console.log(userData);
 
     const response = await User.create(userData);
     console.log(response);
@@ -48,12 +45,6 @@ export default {
 
   createPost: async (data: IPost) => {
     try {
-      // const geocodedLocation:any = await getGeocode(data?.recruitingPlace);
-      // if (!geocodedLocation) {
-      //   return { status: false, message: "error in creating post" };
-
-      // }
-
       const postData = {
         postName: data?.postName,
         company: data?.company,
@@ -152,7 +143,7 @@ export default {
         if (response) {
           const postData = await Post.findById(id);
 
-          return { status: true,postData, message: "Job has been rejected" };
+          return { status: true, postData, message: "Job has been rejected" };
         } else {
           return { status: false, message: "Error in deleting job data" };
         }
@@ -166,83 +157,11 @@ export default {
     }
   },
 
-  // getAllPosts: async (
-  //   page: number,
-  //   limit: number,
-  //   search: string,
-  //   location: any,
-  //   qualification: string,
-  //   skills: string,
-  //   workArrangementType: WorkArrangementType,
-  //   employmentType: employmentType,
-  //   userId: string
-  // ) => {
-  //   try {
-  //     const user = await User.findById(userId);
-  //     if(user){
-  //       if(location === undefined){
-  //         location = user.location?.coordinates
-  //       }
-  //     }
-  //     page = Math.max(page, 1);
-  //     const searchRegex = new RegExp(search, "i");
-  //     const locationRegex = new RegExp(location, "i");
-  //     const qualificationRegex = new RegExp(qualification, "i");
-  //     const skillsRegex = new RegExp(skills, "i");
-
-  //     const postDatas = await Post.find({
-  //       $and: [
-  //         { isListed: true },
-  //         {
-  //           $or: [{ postName: searchRegex }, { company: searchRegex }],
-  //         },
-  //         { recruitingPlace: locationRegex },
-  //         { qualification: qualificationRegex },
-  //         { skills: skillsRegex },
-  //         workArrangementType ? { workArrangementType } : {},
-  //         employmentType ? { employmentType } : {},
-  //       ],
-  //     })
-  //       .sort({ createdAt: -1 })
-  //       .skip((page - 1) * limit)
-  //       .limit(limit);
-
-  //     const totalJobs = await Post.countDocuments({
-  //       $and: [
-  //         {
-  //           $or: [
-  //             { postName: searchRegex },
-  //             { company: searchRegex },
-  //             { recruitingPlace: searchRegex },
-  //           ],
-  //         },
-  //         { qualification: qualificationRegex },
-  //         { skills: skillsRegex },
-  //         workArrangementType ? { workArrangementType } : {},
-  //         employmentType ? { employmentType } : {},
-  //         { isListed: true },
-  //       ],
-  //     });
-
-  //     return {
-  //       status: true,
-  //       postDatas,
-  //       page,
-  //       totalPages: Math.ceil(totalJobs / limit),
-  //     };
-  //   } catch (error) {
-  //     return {
-  //       status: false,
-  //       message: "Error in getting post datas: ",
-  //       error,
-  //     };
-  //   }
-  // },
   listJobs: async (
     page: number,
     limit: number,
     search: string,
-    location: any,
+    location: string,
     qualification: string,
     skills: string,
     workArrangementType: WorkArrangementType,
@@ -252,6 +171,8 @@ export default {
     try {
       let coordinates;
       let locationName;
+      console.log("location");
+      // console.log(location);
 
       if (location) {
         const geocodeResult = await getGeocode(location);
@@ -267,7 +188,7 @@ export default {
         }
       }
 
-      if (!coordinates) {
+      if (!coordinates || !location) {
         coordinates = [0, 0];
         locationName = "Anywhere";
       }
@@ -277,8 +198,7 @@ export default {
       const qualificationRegex = new RegExp(qualification, "i");
       const skillsRegex = new RegExp(skills, "i");
 
-      // Prepare the query
-      let query: any = {
+      let query: IQuery = {
         isListed: true,
         $or: [{ postName: searchRegex }, { company: searchRegex }],
         qualification: qualificationRegex,

@@ -1,31 +1,37 @@
 import { Request, Response } from "express";
+import { Dependencies } from "../../../utils/interfaces/dependency.interface";
 
-export default (dependencies: any) => {
+export default (dependencies: Dependencies) => {
   const {
     useCase: { get_All_Posts_useCase },
   } = dependencies;
   const getAllPosts = async (req: Request, res: Response) => {
     try {
-      
       const {
         page = 1,
         limit = 2,
-        search =  "",
+        search = "",
         qualification = "",
-        location ="",
+        location = "",
         skills = "",
         workArrangementType = "",
         employmentType = "",
-        userId
+        userId,
       } = req.query;
-
 
       const response = await get_All_Posts_useCase(
         dependencies
-      ).executeFunction(page, limit, search,location,qualification,skills,workArrangementType,employmentType,userId);
-
-      // console.log(response);
-      
+      ).executeFunction(
+        page,
+        limit,
+        search,
+        location,
+        qualification,
+        skills,
+        workArrangementType,
+        employmentType,
+        userId
+      );
       if (response.status) {
         res.status(200).json({
           status: response?.status,

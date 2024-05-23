@@ -1,13 +1,13 @@
-
 import express from "express";
-import {userPostController} from '../../libs/controller'
-export default (dependencies: any) => {
+import { userPostController } from "../../libs/controller";
+import { Dependencies } from "../../utils/interfaces/dependency.interface";
+export default (dependencies: Dependencies) => {
   const router = express();
-  const {findJobDetailsController,getAllPosts}= userPostController(dependencies)
+  const { findJobDetailsController, getAllPosts } =
+    userPostController(dependencies);
 
-  router.get('/job-details/:id',findJobDetailsController)
-  router.get('/list-jobs',getAllPosts)
+  router.get("/job-details/:id", findJobDetailsController);
+  router.get("/list-jobs", getAllPosts);
 
-
-  return router
+  return router;
 };

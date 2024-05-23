@@ -12,7 +12,7 @@ const start = async()=> {
     }
 }
 
-const port =  process.env.PORT || 5001
+const port =  process.env.PORT || 4001
 
 app.listen(port,()=>{
     console.log(`post-server started at ${port} `);

@@ -1,13 +1,18 @@
-import { Request, Response } from "express";
+import { Dependencies } from "../../../utils/interfaces/dependency.interface";
+import { IUser } from "../../../utils/interfaces/interfaces";
 
-export const createUserController = async (dependencies: any, data: any) => {
-  // console.log("ENTERED CONTROLLER");
-  // console.log(data);
-  
-  const {
-    consumeUsecase: { createUserUsecase },
-  } = dependencies;
-  // console.log("ENTER TO createUserController");
-  const response = await createUserUsecase(dependencies).executeFunction(data);
-  // console.log(response);
+export const createUserController = async (
+  dependencies: Dependencies,
+  data: IUser
+) => {
+  try {
+    const {
+      consumeUsecase: { createUserUsecase },
+    } = dependencies;
+    const response = await createUserUsecase(dependencies).executeFunction(
+      data
+    );
+  } catch (error) {
+    console.log("Error in createUserController", error);
+  }
 };

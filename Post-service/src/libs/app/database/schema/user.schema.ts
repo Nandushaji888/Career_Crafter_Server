@@ -1,16 +1,15 @@
 import mongoose, { Schema, ObjectId } from "mongoose";
-import { IUser,AuthType } from "../../../../utils/interfaces/interfaces";
+import { IUser } from "../../../../utils/interfaces/interfaces";
+import { AuthType } from "../../../../utils/interfaces/enum";
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
   _id: String,
   name: { type: String },
   email: {
     type: String,
-    // required: true, unique: true
   },
   phone: {
     type: String,
-    //  required: true
   },
   type: {
     type: String,

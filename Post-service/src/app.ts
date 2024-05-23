@@ -1,18 +1,15 @@
 import express from "express";
 import cors from "cors";
 import dependencies from "./config/dependencies";
-import { routes } from "./router"
+import { routes } from "./router";
 import { userConsumer } from "./events/storeAuthUserData";
-
-
-
+import cookieParser  from 'cookie-parser'
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
+app.use(cookieParser())
 
 app.use(
   cors({
@@ -22,7 +19,7 @@ app.use(
   })
 );
 
-userConsumer(dependencies)
+userConsumer(dependencies);
 
 app.use("/api", routes(dependencies));
 

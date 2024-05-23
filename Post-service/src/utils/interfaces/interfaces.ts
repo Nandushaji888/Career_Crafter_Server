@@ -1,17 +1,8 @@
 import { ObjectId } from 'mongoose';
+import { AuthType, WorkArrangementType, employmentType } from './enum';
 
 
-export enum WorkArrangementType{
-    Remote='remote',
-    Hybrid='hybrid',
-    Office='office'
-}
 
-export enum employmentType{
-    Fulltime='fulltime',
-    PartTime='parttime',
-    Internship='internship'
-}
 
 export interface IPost {
     postName?: string;
@@ -34,13 +25,15 @@ export interface IPost {
     recruiterId?:string,
     isRejected?:boolean,
     rejectedReason?:string;
-    recruitingPlace?:{
-        locationName:string;
-        type: 'Point';
-        coordinates: [number, number]; // [longitude, latitude]
-      },
+    recruitingPlace?:recruitingPlace
 
   
+}
+
+export interface recruitingPlace{
+    locationName:string;
+    type: 'Point';
+    coordinates: [number, number]; 
 }
 
 
@@ -72,11 +65,7 @@ export interface IUser {
       };
     }
 
-export enum AuthType {
-    User = 'user',
-    Admin = 'admin',
-    Recruiter = 'recruiter'
-}
+
 
 
 
@@ -92,3 +81,34 @@ export interface IQuestion {
     answer: string;
 }
 
+
+export  interface IQuery {
+    isListed: boolean;
+    $or: { postName?: RegExp; company?: RegExp }[];
+    qualification: RegExp;
+    skills: RegExp;
+    workArrangementType?: WorkArrangementType; 
+    employmentType?: employmentType; 
+   }
+
+
+
+   export interface IRecruiter {
+    name: string;
+    email: string;
+    phone: string;
+    password?: string;
+    worksAt:string,
+    type: AuthType;
+    status: boolean;
+    isGoogle:boolean;
+    createdOn:Date
+}
+
+export interface IAdmin {
+    name: string;
+    email: string;
+    password: string;
+    type: AuthType;
+}
+   

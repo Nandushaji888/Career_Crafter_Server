@@ -1,10 +1,9 @@
 import mongoose, { Schema, ObjectId } from "mongoose";
 import {
   IPost,
-  WorkArrangementType,
-  employmentType,
+
 } from "../../../../utils/interfaces/interfaces";
-import { Category } from "./category.schema";
+import { WorkArrangementType, employmentType } from "../../../../utils/interfaces/enum";
 
 const postSchema: Schema<IPost> = new Schema<IPost>({
   postName: {
@@ -32,10 +31,6 @@ const postSchema: Schema<IPost> = new Schema<IPost>({
   salary: {
     type: String,
   },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Category,
-  },
   questions: [
     {
       question: String,
@@ -47,7 +42,7 @@ const postSchema: Schema<IPost> = new Schema<IPost>({
     type: String,
     required: true,
   },
-  recruitingPlace:  {
+  recruitingPlace: {
     locationName: {
       type: String,
     },
@@ -93,13 +88,12 @@ const postSchema: Schema<IPost> = new Schema<IPost>({
     type: Date,
     default: Date.now(),
   },
-  rejectedReason:{
-    type:String
-  }
-
+  rejectedReason: {
+    type: String,
+  },
 });
 
-postSchema.index({ recruitingPlace: '2dsphere' });
+postSchema.index({ recruitingPlace: "2dsphere" });
 const Post = mongoose.model<IPost>("Post", postSchema);
 
 export { Post };
