@@ -93,7 +93,9 @@ const postSchema: Schema<IPost> = new Schema<IPost>({
   },
 });
 
-postSchema.index({ recruitingPlace: "2dsphere" });
+postSchema.index({'recruitingPlace.coordinates': '2dsphere' });
+
+// db.posts.createIndex({'recruitingPlace.coordinates': '2dsphere'})
 const Post = mongoose.model<IPost>("Post", postSchema);
 
 export { Post };

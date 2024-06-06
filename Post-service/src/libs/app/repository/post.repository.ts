@@ -53,7 +53,6 @@ export default {
         skills: data?.skills,
         qualification: data?.qualification,
         salary: data?.salary,
-        category: data?.category,
         questions: data?.questions,
         recruiterEmail: data?.recruiterEmail,
         recruitingPlace: data?.recruitingPlace,
@@ -171,12 +170,10 @@ export default {
     try {
       let coordinates;
       let locationName;
-      console.log("location");
-      // console.log(location);
 
       if (location) {
-        const geocodeResult = await getGeocode(location);
-        coordinates = geocodeResult.coordinates;
+        const geocodeResult = await getGeocode(location);   
+        coordinates = geocodeResult;
         locationName = location;
       } else {
         if (userId) {
@@ -184,11 +181,12 @@ export default {
           if (user && user.location) {
             coordinates = user.location.coordinates;
             locationName = user.location.locationName;
+            
           }
         }
       }
-
-      if (!coordinates || !location) {
+      
+      if (!coordinates || !locationName) {        
         coordinates = [0, 0];
         locationName = "Anywhere";
       }
@@ -210,7 +208,7 @@ export default {
 
       // Aggregation pipeline
       const limitNumber = Number(limit);
-
+      
       const pipeline = [
         {
           $geoNear: {
@@ -224,14 +222,18 @@ export default {
         {
           $addFields: {
             isFromUserLocation: {
-              $eq: ["$recruitingPlace.locationName", locationName],
+              $eq: [
+                { $toLower: ["$recruitingPlace.locationName"] },
+                { $toLower: locationName },
+              ],
             },
           },
         },
+
         {
           $sort: {
             isFromUserLocation: -1,
-            distance: -1,
+            distance: 1,
             createdAt: -1,
           },
         },
@@ -244,6 +246,11 @@ export default {
       ];
 
       const postDatas = await Post.aggregate(pipeline as any[]);
+
+      // console.log(postDatas);
+      console.log(postDatas.length);
+      
+      
 
       const totalJobs = await Post.countDocuments(query);
 

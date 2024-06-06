@@ -4,31 +4,32 @@ import { AuthType, WorkArrangementType, employmentType } from './enum';
 
 
 
-export interface IPost {
-    postName?: string;
-    company?: string;
-    responsibilities?:string,
-    jobDescription?:string,
-    skillsRequired?:string,
-    qualification?:string,
-    salary?:string,
-    category?:ObjectId,
-    questions?:IQuestion[],
-    skills?:string,
-    recruiterEmail?:string,
-    createdAt?:Date,
-    closingDate?:Date,
-    workArrangementType?:WorkArrangementType,
-    employmentType?:employmentType,
-    isPremium?:boolean,
-    isListed?:boolean,
-    recruiterId?:string,
-    isRejected?:boolean,
-    rejectedReason?:string;
-    recruitingPlace?:recruitingPlace
-
-  
+export interface IPost extends Document {
+  postName: string;
+  company: string;
+  responsibilities: string;
+  jobDescription: string;
+  skills?: string;
+  qualification?: string;
+  salary?: string;
+  questions?: { question: string; answer: string }[];
+  recruiterEmail: string;
+  recruitingPlace: {
+    locationName?: string;
+    type: 'Point';
+    coordinates: number[];
+  };
+  recruiterId: string;
+  closingDate?: Date;
+  workArrangementType: WorkArrangementType;
+  employmentType: employmentType;
+  isPremium: boolean;
+  isRejected: boolean;
+  isListed: boolean;
+  createdAt?: Date;
+  rejectedReason?: string;
 }
+
 
 export interface recruitingPlace{
     locationName:string;
@@ -91,6 +92,24 @@ export  interface IQuery {
     employmentType?: employmentType; 
    }
 
+  export interface ListJobsResponse {
+    status: boolean;
+    message?: string;
+    postDatas?: IPost[];
+    page: number;
+    totalPages: number;
+  }
+  
+//   export interface IQuery {
+//     isListed?: boolean;
+//     postName?: RegExp;
+//     company?: RegExp;
+//     qualification?: RegExp;
+//     skills?: RegExp;
+//     workArrangementType?: string;
+//     employmentType?: string;
+//   }
+
 
 
    export interface IRecruiter {
@@ -112,3 +131,42 @@ export interface IAdmin {
     type: AuthType;
 }
    
+
+export interface ListJobsResult {
+    status: boolean;
+    postDatas?: IPost[];
+    page?: number;
+    totalPages?: number;
+    message?: string;
+    error?: Error;
+  }
+  
+  export interface ListJobsParams { 
+    page?: number;
+    limit?: number;
+    search?: string;
+    location?: string;
+    qualification?: string;
+    skills?: string;
+    workArrangementType?: string;
+    employmentType?: string;
+    userId?: string;
+  }
+
+  export interface JobQuery {
+    $or?: { [key: string]: any }[];
+    skills?: { $regex: string, $options: string };
+    qualification?: { $regex: string, $options: string };
+    employmentType?: string;
+    workArrangementType?: string;
+    'recruitingPlace.coordinates'?: {
+      $near: {
+        $geometry: {
+          type: string;
+          coordinates: number[];
+        };
+        $maxDistance: number;
+      };
+    };
+  }
+  
